@@ -3,8 +3,6 @@
 const axios = require('axios')
 var displayResults = require('./displayResults')
 
-module.exports = { apiCall :
-
 /*
 ** Name : apiCall
 ** Parameters: terms (type = dict) - search terms/parameters used for our search. see below for format
@@ -25,12 +23,12 @@ module.exports = { apiCall :
 ** Please take a look at *insertParamsTextFile.txt* for detailed info
 */
 
-function apiCall ( terms )
+function apiCall (  )
 {
     const url = 'https://api.yelp.com/v3/businesses/search'
 
     // api key in format 'Bearer <API_KEY>' //please keep dev api off git
-    header ={'Authorization': 'Bearer '}
+    header ={'Authorization': 'Bearer  '}
 
     // search terms example. 
     terms = {
@@ -39,39 +37,24 @@ function apiCall ( terms )
         limit : '3',
         open_now: 'true'
     };
-   
-  axios.get(url, {headers:header, params:terms})
-  .then(response => {
-        //console.log(response.data)
-        let results = [];
-        for ( let business of response.data.businesses)
-        {
-            // console.log(business)
-            businessData = {
-              name:business.name,
-              image:business.image_url,
-              url:business.url,
-              phone:business.display_phone,
-              distance:Math.round (((business.distance * 0.000621371) + Number.EPSILON) *100) /100,
-              price:business.price,
-              categories:business.categories,
-              address:business.location.display_address,
-              review_count:business.review_count,
-              rating:business.rating
-            }
-            results.push(businessData)
-        }
-        //console.log(results)
-        //Call display results if we dont get error
-        displayResults.displayResults(results);
-        return 1;
-  })
-  .catch(error => {
-    console.log(error)
-  })
-  return 0;
+    
+    return axios.get(url, {headers:header, params:terms})
+    .then( response => {
+        return response
+        
+    })
+    .catch(function(error){
+        console.log(error);
+    });
+
 }
 
-};
+async function getResults () {
+    let response = apiCall();
+    return response
 
-//apiCall();
+  }
+
+  //getResults();
+
+ exports.getResults = getResults; 
