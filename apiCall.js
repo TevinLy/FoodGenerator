@@ -28,7 +28,7 @@ function apiCall (  )
     const url = 'https://api.yelp.com/v3/businesses/search'
 
     // api key in format 'Bearer <API_KEY>' //please keep dev api off git
-    header ={'Authorization': 'Bearer  '}
+    header ={'Authorization': 'Bearer '}
 
     // search terms example. 
     terms = {

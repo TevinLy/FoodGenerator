@@ -3,7 +3,8 @@
 var express = require ("express");
 var app = express () ; 
 var request = require ( "request");
-var apiCall = require('./apiCall')
+var apiCall = require('./apiCall');
+const { resolveInclude } = require("ejs");
 var router = express.Router();
 
 
@@ -50,6 +51,21 @@ function promiseExtractor ( response )
 
     response.then(function(result) {
         console.log(result)
+        for ( business of result.data.businesses)
+        {
+            res.push( {
+                name:business.name,
+                image:business.image_url,
+                url:business.url,
+                phone:business.display_phone,
+                distance:Math.round (((business.distance * 0.000621371) + Number.EPSILON) *100) /100,
+                price:business.price,
+                categories:business.categories,
+                address:business.location.display_address,
+                review_count:business.review_count,
+                rating:business.rating
+              } )
+        }
      })
     return res 
 }
