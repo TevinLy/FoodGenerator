@@ -1,7 +1,6 @@
 //Using axios to make GET request to Yelp API
 
 const axios = require('axios')
-var displayResults = require('./displayResults')
 
 /*
 ** Name : apiCall
@@ -28,7 +27,7 @@ function apiCall (  )
     const url = 'https://api.yelp.com/v3/businesses/search'
 
     // api key in format 'Bearer <API_KEY>' //please keep dev api off git
-    header ={'Authorization': 'Bearer '}
+    header ={'Authorization': 'Bearer 8f-9kzIemVxck4ONpD8gVflODiELG0kqJCwhqgw7f9cTgqza1wLfkvTBmwqhyzfRJLL9K7-cKdoz0JT3le2VR1S40z51tw4FsLN88RSILB_zEIJ2p_rn4L_tIHYgX3Yx'}
 
     // search terms example. 
     terms = {
@@ -38,9 +37,9 @@ function apiCall (  )
         open_now: 'true'
     };
     
-    return axios.get(url, {headers:header, params:terms})
+    return  axios.get(url, {headers:header, params:terms})
     .then( response => {
-        return response
+        return response.data.businesses
         
     })
     .catch(function(error){
@@ -49,10 +48,12 @@ function apiCall (  )
 
 }
 
-async function getResults () {
-    let response = apiCall();
-    return response
-
+ async function getResults () {
+    
+    let results = await Promise.resolve ( apiCall() )
+    console.log(results)
+    
+    return results
   }
 
   //getResults();

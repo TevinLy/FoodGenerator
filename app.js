@@ -17,14 +17,18 @@ app.get("/", function (req,res){
 
 app.post("/randomize", function (req,res){
 
+    let data = [] 
     promised_response = apiCall.getResults()
-    promised_response.then(function(result) {
-        console.log(result)
-     })
-    results = promiseExtractor ( promised_response )
-    console.log()
-    console.log(results)
-    if ( results == undefined)
+    console.log(promised_response)
+    /*console.log(promised_response)
+    promised_response.then (result =>{
+        console.log(result.data)
+        data.push (result.data)
+    });
+    setTimeout(alertFunc, 5000)
+    console.log(data)*/
+
+    if ( results != 1)
     {
         res.redirect("/");
         //alert("Uh-oh We had some trouble geting your results. Feel free to try again!");
@@ -69,3 +73,7 @@ function promiseExtractor ( response )
      })
     return res 
 }
+
+function alertFunc() {
+    alert("Hello!");
+  }
