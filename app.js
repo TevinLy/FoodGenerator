@@ -1,6 +1,7 @@
 // FoodGenerator 
 
 var express = require ("express");
+const bodyParser = require('body-parser');
 var app = express () ; 
 var request = require ( "request");
 var apiCall = require('./apiCall');
@@ -9,6 +10,7 @@ var router = express.Router();
 
 
 app.set ( "view engine" , "ejs");
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //landing route
 app.get("/", function (req,res){
@@ -17,8 +19,10 @@ app.get("/", function (req,res){
 
 app.post("/randomize", function (req,res){
 
+    //console.log(req.body.location)
+
     // the random part 
-    const rnd = Math.floor((Math.random() * 100) + 1);
+    const rnd = Math.floor((Math.random() * 49) + 1);
 
     /*
     ** Name : asyncAPICall
@@ -28,10 +32,11 @@ app.post("/randomize", function (req,res){
     ** 
     */
     const asyncAPICall = async () => {
-        const response = Promise.resolve ( await apiCall.getResults() )
+        const response = Promise.resolve ( await apiCall.getResults(req.body.location) )
 
-        response.then (result =>{
-
+        response.then (result =>{ 
+            const rnd = Math.floor((Math.random() * result.length-1) + 1);
+            console.log(result[rnd], rnd , )
             const business = {
                 name:result[rnd].name,
                 image:result[rnd].image_url,
@@ -42,7 +47,7 @@ app.post("/randomize", function (req,res){
                 categories:result[rnd].categories,
                 address:result[rnd].location.display_address,
                 review_count:result[rnd].review_count,
-                rating:result[rndfe].rating
+                rating:result[rnd].rating
             }
 
             if ( result == undefined)
