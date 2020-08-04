@@ -17,27 +17,46 @@ app.get("/", function (req,res){
 
 app.post("/randomize", function (req,res){
 
-    let data = [] 
-    promised_response = apiCall.getResults()
-    console.log(promised_response)
-    /*console.log(promised_response)
-    promised_response.then (result =>{
-        console.log(result.data)
-        data.push (result.data)
-    });
-    setTimeout(alertFunc, 5000)
-    console.log(data)*/
+    // the random part 
+    const rnd = Math.floor((Math.random() * 100) + 1);
 
-    if ( results != 1)
-    {
-        res.redirect("/");
-        //alert("Uh-oh We had some trouble geting your results. Feel free to try again!");
-    }
-    else
-    {
-        res.render("displayResults", {results:business})
-    }
+    /*
+    ** Name : asyncAPICall
+    ** Parameters: None
+    ** Returns: None
+    ** Description: Just an async container to call apiCall.getResults()
+    ** 
+    */
+    const asyncAPICall = async () => {
+        const response = Promise.resolve ( await apiCall.getResults() )
 
+        response.then (result =>{
+
+            const business = {
+                name:result[rnd].name,
+                image:result[rnd].image_url,
+                url:result[rnd].url,
+                phone:result[rnd].display_phone,
+                distance:Math.round (((result[rnd].distance * 0.000621371) + Number.EPSILON) *100) /100,
+                price:result[rnd].price,
+                categories:result[rnd].categories,
+                address:result[rnd].location.display_address,
+                review_count:result[rnd].review_count,
+                rating:result[rndfe].rating
+            }
+
+            if ( result == undefined)
+            {
+                res.redirect("/");
+                //alert("Uh-oh We had some trouble geting your results. Feel free to try again!");
+            }
+            else
+            {
+                res.render("displayResults", {business:business})
+            }
+                });
+    }
+    asyncAPICall()
 });
 
 app.get ( "*", function ( req,res){
@@ -49,31 +68,3 @@ app.listen (3000 , function () {
     console.log ( "FoodGenerator started");
 });
 
-function promiseExtractor ( response )
-{
-    res = [] 
-
-    response.then(function(result) {
-        console.log(result)
-        for ( business of result.data.businesses)
-        {
-            res.push( {
-                name:business.name,
-                image:business.image_url,
-                url:business.url,
-                phone:business.display_phone,
-                distance:Math.round (((business.distance * 0.000621371) + Number.EPSILON) *100) /100,
-                price:business.price,
-                categories:business.categories,
-                address:business.location.display_address,
-                review_count:business.review_count,
-                rating:business.rating
-              } )
-        }
-     })
-    return res 
-}
-
-function alertFunc() {
-    alert("Hello!");
-  }

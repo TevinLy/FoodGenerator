@@ -22,12 +22,12 @@ const axios = require('axios')
 ** Please take a look at *insertParamsTextFile.txt* for detailed info
 */
 
-function apiCall (  )
+async function apiCall (  )
 {
     const url = 'https://api.yelp.com/v3/businesses/search'
 
     // api key in format 'Bearer <API_KEY>' //please keep dev api off git
-    header ={'Authorization': 'Bearer '}
+    header ={'Authorization': 'Bearer 8f-9kzIemVxck4ONpD8gVflODiELG0kqJCwhqgw7f9cTgqza1wLfkvTBmwqhyzfRJLL9K7-cKdoz0JT3le2VR1S40z51tw4FsLN88RSILB_zEIJ2p_rn4L_tIHYgX3Yx'}
 
     // search terms example. 
     terms = {
@@ -37,7 +37,7 @@ function apiCall (  )
         open_now: 'true'
     };
     
-    return  axios.get(url, {headers:header, params:terms})
+    return await axios.get(url, {headers:header, params:terms})
     .then( response => {
         return response.data.businesses
         
@@ -50,8 +50,8 @@ function apiCall (  )
 
  async function getResults () {
     
-    let results = await Promise.resolve ( apiCall() )
-    console.log(results)
+    let results = await apiCall() 
+    //console.log(results)
     
     return results
   }
