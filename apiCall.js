@@ -71,7 +71,8 @@ function generateTerms ( location ) {
         term:'food',
         location: location,
         limit : '50',
-        open_now: 'true'
+        open_now: 'true',
+        offset : Math.floor((Math.random() * 100) + 1)
 
     };
      
