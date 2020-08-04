@@ -27,17 +27,18 @@ async function apiCall ( terms )
     const url = 'https://api.yelp.com/v3/businesses/search'
 
     // api key in format 'Bearer <API_KEY>' //please keep dev api off git
-    header ={'Authorization': 'Bearer '}
-
-
+    header ={'Authorization': 'Bearer 8f-9kzIemVxck4ONpD8gVflODiELG0kqJCwhqgw7f9cTgqza1wLfkvTBmwqhyzfRJLL9K7-cKdoz0JT3le2VR1S40z51tw4FsLN88RSILB_zEIJ2p_rn4L_tIHYgX3Yx'}
     
     return await axios.get(url, {headers:header, params:terms})
     .then( response => {
-        return response.data.businesses
+
+        return response.data
         
     })
     .catch(function(error){
+
         console.log(error);
+
     });
 
 }
@@ -66,10 +67,12 @@ async function apiCall ( terms )
 function generateTerms ( location ) {
 
     terms = {
-        term:'resturaunt',
+
+        term:'food',
         location: location,
         limit : '50',
         open_now: 'true'
+
     };
      
     return terms
@@ -88,6 +91,7 @@ function generateTerms ( location ) {
     let terms = generateTerms( location )
     let results = await apiCall( terms ) 
     return results
+
   }
 
   //getResults();
