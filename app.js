@@ -19,8 +19,6 @@ app.get("/", function (req,res){
 
 app.post("/randomize", function (req,res){
 
-    //console.log(req.body.location)
-
     /*
     ** Name : asyncAPICall
     ** Parameters: None
@@ -29,7 +27,7 @@ app.post("/randomize", function (req,res){
     ** 
     */
     const asyncAPICall = async () => {
-        const response = Promise.resolve ( await apiCall.getResults(req.body.location) )
+        const response = Promise.resolve ( await apiCall.getResults(req.body.location, req.body.term) )
 
         response.then (result =>{ 
             if ( result == undefined )
@@ -68,7 +66,13 @@ app.post("/randomize", function (req,res){
         });
     }
 
-    asyncAPICall()
+    if ( ! locationCheck(req.body.location) )
+    {
+        
+    }
+    else {
+        asyncAPICall()
+    }
      
 });
 
@@ -83,3 +87,21 @@ app.listen (3000 , function () {
     console.log ( "FoodGenerator started");
 });
 
+
+/*
+    ** Name : locationCheck
+    ** Parameters: location - string 
+    ** Returns: Bool 
+    ** Description: Check if location parameter is valid
+    ** 
+    */
+
+function locationCheck ( location )
+{
+    if ( location.length ==0 )
+    {
+        console.log('false')
+        return false 
+    }
+    return true
+}

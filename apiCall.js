@@ -27,8 +27,7 @@ async function apiCall ( terms )
     const url = 'https://api.yelp.com/v3/businesses/search'
 
     // api key in format 'Bearer <API_KEY>' //please keep dev api off git
-    header ={'Authorization': 'Bearer 8f-9kzIemVxck4ONpD8gVflODiELG0kqJCwhqgw7f9cTgqza1wLfkvTBmwqhyzfRJLL9K7-cKdoz0JT3le2VR1S40z51tw4FsLN88RSILB_zEIJ2p_rn4L_tIHYgX3Yx'}
-    
+    header ={'Authorization': 'Bearer '}
     return await axios.get(url, {headers:header, params:terms})
     .then( response => {
 
@@ -64,15 +63,19 @@ async function apiCall ( terms )
 ** Please take a look at *insertParamsTextFile.txt* for detailed info
 */
 
-function generateTerms ( location ) {
+function generateTerms ( location, term ) {
+
+    if ( term == "What are you looking for? It searches for food by default." ){
+        term = 'food'
+    }
 
     terms = {
 
-        term:'food',
+        term:term,
         location: location,
-        limit : '50',
+        limit : '50', // current max limit
         open_now: 'true',
-        offset : Math.floor((Math.random() * 100) + 1)
+        offset : Math.floor((Math.random() * 100) + 1) // so we dont always get the top 50. this gives the top 0~100 but only 50 of them
 
     };
      

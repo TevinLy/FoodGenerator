@@ -1,13 +1,15 @@
 <h1>
-    Results
+    <a href=<%= business.url %>><%= business.name %> </a>
 </h1>
 
-<p> <%= business.name %> </p>
-<img src= <%= business.image %>  > 
-<p> <%= business.url %> </p>
+<p> <img src= <%= business.image %>  style ="width:348;height:348;"> </p>
 <p> <%= business.phone %> </p>
 <p> <%= business.price %> </p>
-<p> <%= business.categories %> </p>
+<p> <% for ( cat of business.categories ) { %> 
+    <%= cat.title %> 
+    <% }; %> 
+
+</p>
 <p> <%= business.address %> </p>
 <p> <%= business.review_count %> </p>
 <p> <%= business.rating %> </p>
